@@ -1,0 +1,301 @@
+Role & Expectation
+
+You are an experienced full-stack MVP engineer and product builder.
+Your task is to design and build a functional MVP web application for a Nigerian Tax-Readiness Product, using simple, beginner-friendly architecture that works reliably on Replit Free Tier.
+
+This is not a production system.
+It is a mentor-reviewable MVP demo focused on clarity, usability, and correctness — not scale, automation, or integrations.
+
+1. Project Overview
+
+Build a Nigerian Tax-Readiness Web App designed to help:
+
+Individuals
+
+Freelancers
+
+Salary earners
+
+Self-employed people
+
+Small business owners
+
+understand and prepare for their tax obligations under the 2025/2026 Nigerian tax reforms.
+
+The app must:
+
+Simplify complex tax laws
+
+Explain obligations in plain English
+
+Guide users on what applies to them
+
+Help users become tax-ready, not file taxes
+
+This product fills a clear market gap:
+Most Nigerian financial apps focus on banking, invoicing, or bookkeeping, but none provide simple tax clarity for everyday Nigerians.
+
+This MVP should act as a Tax Readiness Companion, not an accounting tool.
+
+2. Core Problem Being Solved
+
+Nigerians currently face:
+
+Tax laws scattered across large, complex documents
+
+Low awareness of which taxes apply to them
+
+High risk of penalties due to misunderstanding
+
+No simple digital tool for tax education without accounting knowledge
+
+This MVP addresses tax confusion and lack of clarity, nothing more.
+
+3. Project Objectives (MVP Scope)
+
+The MVP must:
+
+Help users identify which taxes apply to them
+
+Explain relevant tax rules in simple, non-technical language
+
+Provide a step-by-step tax readiness guide
+
+Be lightweight, fast, and easy to use
+
+Require no login
+
+Optionally include a basic Tax Assistant Chatbot
+
+4. Target Users
+Primary Users
+
+Freelancers & gig workers
+
+Self-employed individuals
+
+Digital workers (content creators, POS agents, artisans, riders)
+
+Salary earners unsure of tax deductions
+
+Secondary Users (future expansion)
+
+Nano and small businesses (SMEs)
+
+Important:
+These users need clarity and guidance, not bookkeeping or tax filing automation.
+
+5. MVP Features (Must Build)
+A. Tax Category Understanding
+
+Static guides explaining:
+
+Personal Income Tax (PIT)
+
+VAT (basic understanding)
+
+Withholding tax (high-level)
+
+Local/state levies (high-level)
+
+B. Tax Obligations Classifier
+
+A 4–6 question questionnaire that asks:
+
+User type
+
+Income category
+
+Location (state relevance)
+
+Work type (salary, freelance, business)
+
+Output:
+
+A Tax Responsibility Summary showing applicable taxes
+
+No data storage required.
+
+C. Tax Self-Assessment Questionnaire
+
+Simple Yes/No & multiple-choice questions
+
+Gives a readiness hint, not a score
+
+No data saving
+
+D. Learning Modules
+
+Short, digestible content pages:
+
+“What taxes apply to me?”
+
+“How the 2025/2026 reforms affect you”
+
+“Common mistakes to avoid”
+
+E. Tax-Ready Checklist
+
+Dynamic checklist based on user answers
+
+Shows documents & steps to prepare
+
+Printable or copyable
+
+F. Personalized Tax Tips
+
+Simple rule-based logic
+
+Suggests next steps based on answers
+
+G. Optional: Tax Assistant Chatbot
+
+Answers basic questions
+
+Uses static, curated content
+
+No tax filing, calculations, or professional advice
+
+6. Explicitly Out of Scope (DO NOT BUILD)
+
+❌ Bookkeeping
+❌ Income/expense tracking
+❌ Invoicing
+❌ Accounting systems
+❌ Receipt uploads
+❌ Payroll
+❌ Tax filing automation
+❌ Payments or remittance
+❌ User accounts or dashboards
+❌ External APIs (FIRS, banks, etc.)
+❌ Mobile app
+❌ Cloud databases
+
+This is a tax understanding tool only.
+
+7. Deliverables
+
+Replit AI must produce:
+
+A clean, single-page responsive web app
+
+Functional tax classifier
+
+Self-assessment questionnaire
+
+Learning modules
+
+Tax-ready checklist
+
+Personalized tips
+
+Optional chatbot
+
+Clear code structure
+
+Simple README explaining features & user flow
+
+8. Functional Requirements
+Classifier
+
+Instant mapping of user inputs → tax categories
+
+Clear output display
+
+Self-Assessment
+
+No data persistence
+
+Simple logic
+
+Learning Modules
+
+Static content pages
+
+Easy navigation
+
+Checklist
+
+Conditional display
+
+Copyable text
+
+Chatbot
+
+Rule-based or static knowledge
+
+No hallucination
+
+Clear disclaimers
+
+9. Non-Functional Requirements
+
+Must load fast
+
+Mobile-first design
+
+Works on low-end smartphones
+
+Plain English language
+
+Beginner-friendly UI
+
+No heavy animations
+
+No mandatory login
+
+10. Assumptions & Constraints
+
+Tax rules are static
+
+Content based on public documents
+
+No backend database
+
+No API integrations
+
+Manual updates when laws change
+
+Beginner-level implementation only
+
+11. Success Criteria
+
+The MVP is successful if:
+
+Users understand obligations in under 3 minutes
+
+Classifier correctly handles common cases
+
+Users report clarity
+
+Chatbot answers at least 20 common FAQs
+
+Mentor can clearly see product potential
+
+12. Technical Guidance (Recommended)
+
+Use:
+
+HTML, CSS, JavaScript (or lightweight React if necessary)
+
+Client-side logic only
+
+JSON for static tax rules
+
+Simple modular structure
+
+No paid services
+
+Final Instruction
+
+Build the simplest working version of this product that demonstrates:
+
+Clear thinking
+
+Correct logic
+
+Strong product direction
+
+Expandability
+
+Do not over-engineer.
