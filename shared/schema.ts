@@ -4,7 +4,7 @@ import { z } from "zod";
 
 // === DOMAIN TYPES for Client-Side Logic ===
 
-export const UserTypes = ["Freelancer", "Salary Earner", "Self-Employed", "Business Owner"] as const;
+export const UserTypes = ["Freelancer", "Salary Earner", "Self-Employed", "Business Owner", "Mixed Income", "Company Owner"] as const;
 export const IncomeSources = ["Local", "Foreign", "Mixed"] as const;
 export const Locations = ["Lagos", "Abuja", "Other State"] as const;
 

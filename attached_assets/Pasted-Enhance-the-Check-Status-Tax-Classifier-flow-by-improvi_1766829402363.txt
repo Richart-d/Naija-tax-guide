@@ -1,0 +1,153 @@
+Enhance the “Check Status / Tax Classifier” flow by improving clarity around income types and adding small, unobtrusive tooltips/info hints to help users understand questions and options without overwhelming the interface.
+
+Do not change the overall app structure or add out-of-scope features.
+
+Required Changes
+1. Update Income Classification Flow
+
+Replace the current “Self-Employed vs Business Owner” question with a two-step flow:
+
+Step 1: Primary Work Structure
+
+Ask:
+
+“How do you earn income?”
+(Allow multiple selection)
+
+Options:
+
+I earn a salary from an employer
+
+I work for myself alone (freelance, gigs, personal services)
+
+I run a small business that sells goods or services
+
+I run a registered company (LTD)
+
+I do a mix of the above
+
+Add a small tooltip / info icon next to:
+
+The question title
+
+Each option
+
+Tooltip content should briefly explain:
+
+Salary → employer pays you and may deduct PAYE
+
+Work for myself alone → you earn directly from your personal skills or services
+
+Small business → business sells goods/services and may operate beyond just you
+
+Registered company → business is legally separate from you
+
+Mix → more than one income source
+
+Tooltips should be:
+
+Short (1–2 lines)
+
+Optional to read
+
+Visible on hover or tap
+
+Mobile-friendly
+
+2. Add Step 2 (Conditional – Business Complexity)
+
+Only show this step if the user selects:
+
+“I run a small business…”
+
+OR “I do a mix of the above”
+
+Ask:
+
+“Does your business have any of these?”
+(Multi-select)
+
+Options:
+
+Staff or helpers
+
+A shop, outlet, or POS terminal
+
+Regular daily sales
+
+Business name or CAC registration
+
+Add a tooltip next to the question explaining:
+
+This helps determine how your activity is treated for tax readiness
+
+It does not mean your business is automatically a company
+
+Add brief tooltips to each option (e.g., staff = anyone you pay to help).
+
+3. Internal Classification Logic (Hidden from User)
+
+Use the answers only for internal logic:
+
+Salary only → Salary Earner (PAYE context)
+
+Works alone → Self-Employed Individual (PIT – self-assessment)
+
+Business + any complexity indicators → Small Business Owner
+
+Mixed income → Mixed Income
+
+Registered company (LTD) → Company Owner (educational scope only)
+
+Do not expose legal tax terms unless explained in plain English.
+
+4. Results Page Update
+
+Explain outcomes in simple, non-technical language
+
+Add a small tooltip or info note where tax terms appear
+
+For LTD owners, show a clear info note:
+
+Companies are taxed differently
+
+This platform provides tax readiness education only
+
+Directors still have personal tax obligations
+
+5. Constraints
+
+No backend
+
+No data storage
+
+No APIs
+
+Client-side only
+
+Modify existing files only
+
+Keep UI clean, mobile-first, and fast
+
+Tooltips should be lightweight (CSS/JS only)
+
+Implement these changes cleanly and ensure the classifier still works instantly.
+
+🔧 Key Improvements
+
+• Added contextual tooltips for better first-time understanding
+• Reduced confusion without adding visible clutter
+• Maintained MVP scope and simplicity
+• Improved mobile usability and mentor-readability
+
+🧠 Techniques Applied
+
+Progressive disclosure (tooltips)
+
+Constraint-based prompt optimization
+
+UX clarity without feature creep
+
+💡 Pro Tip
+
+If a user can complete the flow without guessing what a term means, the tooltips are doing their job.
