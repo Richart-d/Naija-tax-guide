@@ -14,7 +14,7 @@ import {
 import { ArrowRight, Check, AlertCircle, RefreshCcw, Info, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
-// Internal options for Step 1
+// Internal options for Step 1: Work Type
 const WORK_TYPES = [
   { 
     id: "salary", 
@@ -41,9 +41,14 @@ const WORK_TYPES = [
     label: "I do a mix of the above", 
     tooltip: "More than one income source" 
   },
+  {
+    id: "ngo",
+    label: "I run or manage a non-profit / NGO / charity / association",
+    tooltip: "Non-profits may still have tax obligations depending on how they earn income"
+  },
 ] as const;
 
-// Internal options for Step 2
+// Step 2a: Complexity Indicators (for business/mix)
 const COMPLEXITY_INDICATORS = [
   { id: "staff", label: "Staff or helpers", tooltip: "Anyone you pay to help you work" },
   { id: "shop", label: "A shop, outlet, or POS terminal", tooltip: "Physical location or payment terminal" },
@@ -51,7 +56,25 @@ const COMPLEXITY_INDICATORS = [
   { id: "cac", label: "Business name or CAC registration", tooltip: "Registered with Corporate Affairs Commission" },
 ] as const;
 
-// Internal options for Step 3: Income Source
+// Step 2b: NGO Classification (for NGO)
+const NGO_TYPES = [
+  { id: "religious", label: "Religious or faith-based organisation", tooltip: "Includes churches, mosques, temples, etc." },
+  { id: "charity", label: "Charity or foundation", tooltip: "Established to provide charitable services" },
+  { id: "ngo", label: "NGO / non-profit organisation", tooltip: "Non-governmental, non-profit focused" },
+  { id: "cooperative", label: "Cooperative society", tooltip: "Member-owned, democratic organisation" },
+  { id: "union", label: "Trade union or professional association", tooltip: "Represents workers or professionals" },
+] as const;
+
+// Step 3: NGO Income Types (only shown if NGO selected)
+const NGO_INCOME_TYPES = [
+  { id: "donations", label: "Donations, grants, tithes, or gifts", tooltip: "Money given without expectation of return" },
+  { id: "membership", label: "Membership dues or subscriptions", tooltip: "Income from members paying to belong" },
+  { id: "sales", label: "Sale of goods or merchandise", tooltip: "Selling physical products" },
+  { id: "training", label: "Paid training, consultancy, or events", tooltip: "Charging for educational or consulting services" },
+  { id: "rent", label: "Rent, licensing, or service fees", tooltip: "Income from property or service charges" },
+] as const;
+
+// Step 4: Income Source
 const INCOME_SOURCES = [
   { 
     id: "local", 
@@ -74,62 +97,116 @@ export default function Classifier() {
   const [step, setStep] = useState(1);
   const [workType, setWorkType] = useState<string>("");
   const [complexity, setComplexity] = useState<string[]>([]);
+  const [ngoType, setNgoType] = useState<string[]>([]);
+  const [ngoIncome, setNgoIncome] = useState<string[]>([]);
   const [incomeSource, setIncomeSource] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [result, setResult] = useState<string[] | null>(null);
 
   const handleNext = () => {
     if (step === 1) {
-      if (workType === "business" || workType === "mix") {
+      if (workType === "ngo" || workType === "business" || workType === "mix") {
         setStep(2);
       } else {
-        setStep(3); // Skip complexity, go to income source
+        setStep(4); // Skip to income source for other types
       }
     } else if (step === 2) {
-      setStep(3); // From complexity to income source
+      if (workType === "ngo") {
+        setStep(3); // Go to NGO Income
+      } else {
+        setStep(4); // Go to Income Source (from Complexity)
+      }
     } else if (step === 3) {
-      setStep(4); // From income source to location
+      setStep(4); // From NGO Income to Income Source
+    } else if (step === 4) {
+      setStep(5); // From Income Source to Location
+    }
+  };
+
+  const handleBack = () => {
+    if (step === 2) {
+      setStep(1);
+    } else if (step === 3) {
+      setStep(2);
+    } else if (step === 4) {
+      if (workType === "ngo") {
+        setStep(3); // Back to NGO Income
+      } else if (workType === "business" || workType === "mix") {
+        setStep(2); // Back to Complexity
+      } else {
+        setStep(1); // Back to Work Type
+      }
+    } else if (step === 5) {
+      setStep(4); // Back to Income Source
     }
   };
 
   const calculateResult = () => {
     const taxes: string[] = [];
-    let userType = "";
+    let classification = "";
 
-    // Classification Logic
-    if (workType === "salary") userType = "Salary Earner";
-    else if (workType === "freelance") userType = "Self-Employed";
-    else if (workType === "company") userType = "Company Owner";
-    else if (workType === "mix") userType = "Mixed Income";
-    else if (workType === "business") {
-      // Check complexity
-      if (complexity.length > 0) userType = "Business Owner";
-      else userType = "Self-Employed"; // Fallback if no complexity selected, though 'business' implies it
-    }
+    // NGO Classification and Results
+    if (workType === "ngo") {
+      classification = "Non-Profit Organisation";
+      
+      const ngoTypeLabels = ngoType.map(t => NGO_TYPES.find(type => type.id === t)?.label).filter(Boolean);
+      const ngoIncomeLabels = ngoIncome.map(t => NGO_INCOME_TYPES.find(inc => inc.id === t)?.label).filter(Boolean);
+      
+      if (ngoTypeLabels.length > 0) {
+        taxes.push(`Organisation Type: ${ngoTypeLabels.join(", ")}`);
+      }
+      
+      if (ngoIncomeLabels.length > 0) {
+        taxes.push(`Income Sources: ${ngoIncomeLabels.join(", ")}`);
+      }
 
-    // Generate Messages based on User Type
-    if (userType === "Salary Earner") {
-      taxes.push("PAYE (Pay As You Earn) - Your employer handles this.");
-    } else if (userType === "Company Owner") {
-      taxes.push("CIT (Companies Income Tax) - Companies are taxed differently.");
-      taxes.push("Note: Directors still have personal tax obligations (PIT).");
-    } else if (userType === "Mixed Income") {
-      taxes.push("PIT (Personal Income Tax) on your private earnings.");
-      taxes.push("PAYE on any salary portion.");
+      taxes.push("Tax Readiness Note: Many donations and grants may be exempt from tax. However, income from services, sales, or commercial activities may be subject to taxation.");
+      
+      if (ngoIncome.includes("sales") || ngoIncome.includes("training") || ngoIncome.includes("rent")) {
+        taxes.push("Commercial Income Alert: When your NGO earns money from selling goods, providing paid services, or charging fees, that income may be treated as business income and subject to VAT and company income tax.");
+      }
+      
+      if (ngoIncome.includes("donations") || ngoIncome.includes("membership")) {
+        taxes.push("Donation/Membership Income: These sources may qualify for tax-exempt status if your organisation is registered with relevant tax authorities.");
+      }
+
+      taxes.push("Important: NGO tax treatment depends on your specific registration and activities. Consult with a tax professional about your organisation's status.");
     } else {
-      // Self-Employed / Business Owner
-      taxes.push("PIT (Personal Income Tax) - Direct Assessment.");
-      if (complexity.includes("shop") || complexity.includes("sales")) {
-        taxes.push("VAT (Value Added Tax) - Likely applicable for goods/services.");
+      // Original non-NGO logic
+      if (workType === "salary") classification = "Salary Earner";
+      else if (workType === "freelance") classification = "Self-Employed";
+      else if (workType === "company") classification = "Company Owner";
+      else if (workType === "mix") classification = "Mixed Income";
+      else if (workType === "business") {
+        if (complexity.length > 0) classification = "Business Owner";
+        else classification = "Self-Employed";
       }
-      if (complexity.includes("staff")) {
-        taxes.push("PAYE for Staff - You may need to deduct tax for employees.");
+
+      if (classification === "Salary Earner") {
+        taxes.push("PAYE (Pay As You Earn) - Your employer handles this.");
+      } else if (classification === "Company Owner") {
+        taxes.push("CIT (Companies Income Tax) - Companies are taxed differently.");
+        taxes.push("Note: Directors still have personal tax obligations (PIT).");
+      } else if (classification === "Mixed Income") {
+        taxes.push("PIT (Personal Income Tax) on your private earnings.");
+        taxes.push("PAYE on any salary portion.");
+      } else {
+        // Self-Employed / Business Owner
+        taxes.push("PIT (Personal Income Tax) - Direct Assessment.");
+        if (complexity.includes("shop") || complexity.includes("sales")) {
+          taxes.push("VAT (Value Added Tax) - Likely applicable for goods/services.");
+        }
+        if (complexity.includes("staff")) {
+          taxes.push("PAYE for Staff - You may need to deduct tax for employees.");
+        }
       }
     }
 
-    // Income Source Logic
-    if (incomeSource === "foreign" || incomeSource === "mixed") {
-      taxes.push("Foreign Income may have tax exemptions if you paid tax abroad (Residency Rule).");
+    // Income Source Logic (applies to non-NGO)
+    if (workType !== "ngo") {
+      if (incomeSource === "foreign" || incomeSource === "mixed") {
+        taxes.push("Foreign Income may have tax exemptions if you paid tax abroad (Residency Rule).");
+      }
     }
 
     // Location Logic
@@ -147,6 +224,8 @@ export default function Classifier() {
     setStep(1);
     setWorkType("");
     setComplexity([]);
+    setNgoType([]);
+    setNgoIncome([]);
     setIncomeSource("");
     setLocation("");
   };
@@ -210,8 +289,63 @@ export default function Classifier() {
                 </div>
               )}
 
-              {/* Step 2: Complexity */}
-              {step === 2 && (
+              {/* Step 2: Complexity (for business/mix) or NGO Type (for ngo) */}
+              {step === 2 && workType === "ngo" && (
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Label className="text-lg font-medium">Which best describes your organisation?</Label>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info className="h-4 w-4 text-muted-foreground" />
+                          </TooltipTrigger>
+                          <TooltipContent>These labels do not automatically mean tax-free status</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    
+                    <div className="flex flex-col gap-3">
+                      {NGO_TYPES.map((type) => (
+                        <div key={type.id} className="flex items-start space-x-2 rounded-lg border p-3">
+                          <Checkbox 
+                            id={type.id} 
+                            checked={ngoType.includes(type.id)}
+                            onCheckedChange={(checked) => {
+                              if (checked) setNgoType([...ngoType, type.id]);
+                              else setNgoType(ngoType.filter(t => t !== type.id));
+                            }}
+                          />
+                          <div className="flex flex-1 items-center justify-between">
+                            <Label htmlFor={type.id} className="cursor-pointer font-normal">{type.label}</Label>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Info className="h-3 w-3 text-muted-foreground/50" />
+                                </TooltipTrigger>
+                                <TooltipContent side="right">
+                                  <p className="w-48 text-xs">{type.tooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={handleBack} className="w-1/3">
+                      <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                    </Button>
+                    <Button onClick={handleNext} className="w-2/3">
+                      Next <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 2: Complexity (for business/mix only) */}
+              {step === 2 && (workType === "business" || workType === "mix") && (
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
@@ -255,7 +389,7 @@ export default function Classifier() {
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <Button variant="outline" onClick={() => setStep(1)} className="w-1/3">
+                    <Button variant="outline" onClick={handleBack} className="w-1/3">
                       <ArrowLeft className="mr-2 h-4 w-4" /> Back
                     </Button>
                     <Button onClick={handleNext} className="w-2/3">
@@ -265,8 +399,63 @@ export default function Classifier() {
                 </div>
               )}
 
-              {/* Step 3: Income Source */}
-              {step === 3 && (
+              {/* Step 3: NGO Income Types (only if NGO) */}
+              {step === 3 && workType === "ngo" && (
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Label className="text-lg font-medium">Does your organisation receive income from any of these?</Label>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info className="h-4 w-4 text-muted-foreground" />
+                          </TooltipTrigger>
+                          <TooltipContent>This helps us understand your tax readiness needs</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    
+                    <div className="flex flex-col gap-3">
+                      {NGO_INCOME_TYPES.map((item) => (
+                        <div key={item.id} className="flex items-start space-x-2 rounded-lg border p-3">
+                          <Checkbox 
+                            id={item.id} 
+                            checked={ngoIncome.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              if (checked) setNgoIncome([...ngoIncome, item.id]);
+                              else setNgoIncome(ngoIncome.filter(i => i !== item.id));
+                            }}
+                          />
+                          <div className="flex flex-1 items-center justify-between">
+                            <Label htmlFor={item.id} className="cursor-pointer font-normal">{item.label}</Label>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Info className="h-3 w-3 text-muted-foreground/50" />
+                                </TooltipTrigger>
+                                <TooltipContent side="right">
+                                  <p className="w-48 text-xs">{item.tooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={handleBack} className="w-1/3">
+                      <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                    </Button>
+                    <Button onClick={handleNext} className="w-2/3">
+                      Next <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Income Source (only for non-NGO; NGO skips this if needed) */}
+              {step === 4 && workType !== "ngo" && (
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
@@ -303,7 +492,7 @@ export default function Classifier() {
                     </RadioGroup>
                   </div>
                   <div className="flex gap-3">
-                    <Button variant="outline" onClick={() => setStep(workType === "business" || workType === "mix" ? 2 : 1)} className="w-1/3">
+                    <Button variant="outline" onClick={handleBack} className="w-1/3">
                       <ArrowLeft className="mr-2 h-4 w-4" /> Back
                     </Button>
                     <Button onClick={handleNext} disabled={!incomeSource} className="w-2/3">
@@ -313,8 +502,56 @@ export default function Classifier() {
                 </div>
               )}
 
-              {/* Step 4: Location */}
-              {step === 4 && (
+              {/* Step 4 for NGO: Income Source */}
+              {step === 4 && workType === "ngo" && (
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Label className="text-lg font-medium">Where is your organisation's money earned?</Label>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info className="h-4 w-4 text-muted-foreground" />
+                          </TooltipTrigger>
+                          <TooltipContent>This affects how certain tax rules apply to your organisation</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    
+                    <RadioGroup value={incomeSource} onValueChange={setIncomeSource} className="flex flex-col gap-3">
+                      {INCOME_SOURCES.map((source) => (
+                        <div key={source.id} className="flex items-center space-x-2 rounded-lg border p-3 hover:bg-muted/50">
+                          <RadioGroupItem value={source.id} id={source.id} />
+                          <div className="flex flex-1 items-center justify-between">
+                            <Label htmlFor={source.id} className="cursor-pointer font-normal">{source.label}</Label>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Info className="h-3 w-3 text-muted-foreground/50" />
+                                </TooltipTrigger>
+                                <TooltipContent side="right">
+                                  <p className="w-48 text-xs">{source.tooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={handleBack} className="w-1/3">
+                      <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                    </Button>
+                    <Button onClick={handleNext} disabled={!incomeSource} className="w-2/3">
+                      Next <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 5: Location */}
+              {step === 5 && (
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <Label className="text-lg font-medium">Where do you reside?</Label>
@@ -330,7 +567,7 @@ export default function Classifier() {
                     </Select>
                   </div>
                   <div className="flex gap-3">
-                    <Button variant="outline" onClick={() => setStep(3)} className="w-1/3">
+                    <Button variant="outline" onClick={handleBack} className="w-1/3">
                       <ArrowLeft className="mr-2 h-4 w-4" /> Back
                     </Button>
                     <Button onClick={calculateResult} disabled={!location} className="w-2/3">
@@ -354,7 +591,7 @@ export default function Classifier() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
                     <Check className="h-6 w-6" />
                   </div>
-                  <h3 className="font-display text-xl font-bold text-primary">Your Tax Summary</h3>
+                  <h3 className="font-display text-xl font-bold text-primary">Your Tax Readiness Summary</h3>
                 </div>
                 
                 <div className="space-y-4">
@@ -376,7 +613,7 @@ export default function Classifier() {
                             <Info className="h-4 w-4 text-muted-foreground/40" />
                           </TooltipTrigger>
                           <TooltipContent>
-                             <p className="w-40 text-xs">This is a key tax obligation based on your inputs.</p>
+                             <p className="w-40 text-xs">This is key information for your tax readiness based on your inputs.</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -385,7 +622,7 @@ export default function Classifier() {
                 </div>
 
                 <div className="mt-8 rounded-lg bg-yellow-50 p-4 text-sm text-yellow-800 border border-yellow-200">
-                  <strong>Disclaimer:</strong> This platform provides tax readiness education only. Please consult a qualified professional.
+                  <strong>Disclaimer:</strong> This platform provides tax readiness education only. Please consult a qualified professional for specific advice about your situation.
                 </div>
 
                 <Button variant="ghost" onClick={resetForm} className="mt-4 w-full text-muted-foreground hover:text-foreground">
@@ -398,7 +635,7 @@ export default function Classifier() {
                   <AlertCircle className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-semibold">No data yet</h3>
-                <p className="mt-2 text-sm">Answer the questions to generate your personalized tax summary.</p>
+                <p className="mt-2 text-sm">Answer the questions to generate your personalized tax readiness summary.</p>
               </div>
             )}
           </motion.div>

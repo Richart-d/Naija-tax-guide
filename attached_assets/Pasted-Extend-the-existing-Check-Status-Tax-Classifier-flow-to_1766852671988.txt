@@ -1,0 +1,101 @@
+Extend the existing “Check Status / Tax Classifier” flow to include non-profit organisations (NGOs, charities, associations, cooperatives, and similar bodies) in a clear, educational, and non-technical way — without adding tax calculations or compliance automation.
+
+Required Changes
+1. Extend Primary Income Question
+
+In the question:
+
+“How do you earn income?”
+
+Add a new option:
+
+I run or manage a non-profit / NGO / charity / association
+
+Add a tooltip explaining:
+
+Non-profits may still have tax obligations depending on how they earn income
+
+2. Add NGO Classification Step (Conditional)
+
+Only show this step if the NGO option is selected.
+
+Ask:
+
+“Which best describes your organisation?” (Multi-select)
+
+Options:
+
+Religious or faith-based organisation
+
+Charity or foundation
+
+NGO / non-profit organisation
+
+Cooperative society
+
+Trade union or professional association
+
+Add a tooltip noting:
+
+These labels do not automatically mean tax-free status
+
+3. Add NGO Income-Type Check
+
+Ask:
+
+“Does your organisation receive income from any of these?” (Multi-select)
+
+Options:
+
+Donations, grants, tithes, or gifts
+
+Membership dues or subscriptions
+
+Sale of goods or merchandise
+
+Paid training, consultancy, or events
+
+Rent, licensing, or service fees
+
+Use this only for readiness classification, not calculations.
+
+4. Results Page Update
+
+Display a plain-English summary explaining:
+
+Which income types are commonly exempt
+
+Which income types may be treated as business income
+
+Possible exposure to VAT, WHT, or company income tax
+
+That this platform provides tax readiness education only
+
+Avoid legal citations and technical tax terms unless explained.
+
+5. Constraints
+
+No backend or database
+
+No APIs
+
+Client-side logic only
+
+Modify existing files only
+
+Keep UI simple, mobile-friendly, and fast
+
+Implement changes cleanly and ensure the classifier remains instant and easy to use.
+
+🔧 Key Improvements
+
+• Expanded platform to NGOs without enterprise complexity
+• Converted complex tax law into simple income-based logic
+• Maintained MVP scope and mentor-review readiness
+
+💡 Pro Tip
+
+If an NGO user finishes the flow and says
+
+“Oh, I didn’t know that part could be taxable”
+your feature has succeeded.
