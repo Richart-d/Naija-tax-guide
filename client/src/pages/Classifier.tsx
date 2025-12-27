@@ -51,10 +51,30 @@ const COMPLEXITY_INDICATORS = [
   { id: "cac", label: "Business name or CAC registration", tooltip: "Registered with Corporate Affairs Commission" },
 ] as const;
 
+// Internal options for Step 3: Income Source
+const INCOME_SOURCES = [
+  { 
+    id: "local", 
+    label: "Earned within Nigeria", 
+    tooltip: "Money from Nigerian clients, businesses, or employers" 
+  },
+  { 
+    id: "foreign", 
+    label: "Earned from outside Nigeria (Foreign)", 
+    tooltip: "Money from international clients or foreign companies" 
+  },
+  { 
+    id: "mixed", 
+    label: "Mix of Nigerian and foreign earnings", 
+    tooltip: "Income from both Nigerian and international sources" 
+  },
+] as const;
+
 export default function Classifier() {
   const [step, setStep] = useState(1);
   const [workType, setWorkType] = useState<string>("");
   const [complexity, setComplexity] = useState<string[]>([]);
+  const [incomeSource, setIncomeSource] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [result, setResult] = useState<string[] | null>(null);
 
@@ -63,10 +83,12 @@ export default function Classifier() {
       if (workType === "business" || workType === "mix") {
         setStep(2);
       } else {
-        setStep(3); // Skip to location or final
+        setStep(3); // Skip complexity, go to income source
       }
     } else if (step === 2) {
-      setStep(3);
+      setStep(3); // From complexity to income source
+    } else if (step === 3) {
+      setStep(4); // From income source to location
     }
   };
 
@@ -105,6 +127,11 @@ export default function Classifier() {
       }
     }
 
+    // Income Source Logic
+    if (incomeSource === "foreign" || incomeSource === "mixed") {
+      taxes.push("Foreign Income may have tax exemptions if you paid tax abroad (Residency Rule).");
+    }
+
     // Location Logic
     if (location === "Abuja") {
       taxes.push("FCT IRS is your relevant tax authority.");
@@ -120,6 +147,7 @@ export default function Classifier() {
     setStep(1);
     setWorkType("");
     setComplexity([]);
+    setIncomeSource("");
     setLocation("");
   };
 
@@ -237,8 +265,56 @@ export default function Classifier() {
                 </div>
               )}
 
-              {/* Step 3: Location */}
+              {/* Step 3: Income Source */}
               {step === 3 && (
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Label className="text-lg font-medium">Where is your money earned?</Label>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Info className="h-4 w-4 text-muted-foreground" />
+                          </TooltipTrigger>
+                          <TooltipContent>This affects how certain tax rules apply to you</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    
+                    <RadioGroup value={incomeSource} onValueChange={setIncomeSource} className="flex flex-col gap-3">
+                      {INCOME_SOURCES.map((source) => (
+                        <div key={source.id} className="flex items-center space-x-2 rounded-lg border p-3 hover:bg-muted/50">
+                          <RadioGroupItem value={source.id} id={source.id} />
+                          <div className="flex flex-1 items-center justify-between">
+                            <Label htmlFor={source.id} className="cursor-pointer font-normal">{source.label}</Label>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Info className="h-3 w-3 text-muted-foreground/50" />
+                                </TooltipTrigger>
+                                <TooltipContent side="right">
+                                  <p className="w-48 text-xs">{source.tooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={() => setStep(workType === "business" || workType === "mix" ? 2 : 1)} className="w-1/3">
+                      <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                    </Button>
+                    <Button onClick={handleNext} disabled={!incomeSource} className="w-2/3">
+                      Next <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Location */}
+              {step === 4 && (
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <Label className="text-lg font-medium">Where do you reside?</Label>
@@ -254,7 +330,7 @@ export default function Classifier() {
                     </Select>
                   </div>
                   <div className="flex gap-3">
-                     <Button variant="outline" onClick={() => setStep(workType === "business" || workType === "mix" ? 2 : 1)} className="w-1/3">
+                    <Button variant="outline" onClick={() => setStep(3)} className="w-1/3">
                       <ArrowLeft className="mr-2 h-4 w-4" /> Back
                     </Button>
                     <Button onClick={calculateResult} disabled={!location} className="w-2/3">
