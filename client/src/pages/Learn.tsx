@@ -96,79 +96,79 @@ const MODULES = [
 
 const DID_YOU_KNOW_ITEMS = [
   {
-    title: "Rent Relief",
+    title: "Rent Relief – Automatic Money You Never Knew About",
     explanation: "What it means: You may deduct part of your rent from your taxable income.",
-    detail: "As an individual, you can claim a percentage of rent paid annually as a deduction from your taxable income, which reduces the tax you owe."
+    detail: "As an individual, you can claim a percentage of rent paid annually as a deduction from your taxable income, which reduces the tax you owe. Money back you didn't expect!"
   },
   {
-    title: "Cash Payments Above ₦50,000",
+    title: "Cash Payment Above ₦50,000 = Free Money to Government",
     explanation: "What it means: Cash payments above ₦50,000 in a single transaction are not allowed.",
-    detail: "All payments above ₦50,000 must use bank transfers, cheques, or electronic payment methods. This is a legal requirement in Nigeria."
+    detail: "All payments above ₦50,000 must use bank transfers, cheques, or electronic payment methods. This rule is law in Nigeria to prevent informal transactions."
   },
   {
-    title: "Crypto Income",
-    explanation: "What it means: Income from cryptocurrency is taxable just like any other income.",
+    title: "Crypto / Dollar Gift or Sales – Tax Man Wants a Cut",
+    explanation: "What it means: Income from cryptocurrency and foreign currency is taxable.",
     detail: "Whether from mining, trading, or gifts of significant value, crypto income must be declared and is subject to tax. Keep records of all transactions."
   },
   {
-    title: "Shares & Capital Gains Exemption",
+    title: "Shares 'Small Money' Escape Hole",
     explanation: "What it means: Gains from selling shares may not be taxed in some cases.",
-    detail: "Capital gains from sales of shares on the Nigerian Stock Exchange may qualify for exemption if they meet certain conditions. Check your specific situation."
+    detail: "Capital gains from sales of shares on the Nigerian Stock Exchange may qualify for exemption if they meet certain conditions. You might keep more profit than expected."
   },
   {
-    title: "Minimum Wage Filing Requirement",
-    explanation: "What it means: You may not need to file if you earn below a certain threshold.",
-    detail: "If your annual income is below the consolidated relief allowance (CRA) threshold, you may not be required to file a tax return, but registration may still be needed."
+    title: "Minimum-Wage Workers Still Must File a Return",
+    explanation: "What it means: Even low earners must file a tax return.",
+    detail: "If your annual income is below the consolidated relief allowance (CRA) threshold, you may not owe tax, but you may still need to file. Check with FIRS."
   },
   {
-    title: "PAYE & WHT Credits",
-    explanation: "What it means: Tax already deducted from your salary or payments can reduce your total tax bill.",
-    detail: "Keep your PAYE slips and WHT credit notes. At year-end, these reduce what you owe. They can result in a refund if you overpaid."
+    title: "PAYE 10% Bonus – Use It or Lose It",
+    explanation: "What it means: Tax already deducted from your salary is money you can get back.",
+    detail: "Keep your PAYE slips and WHT credit notes. At year-end, these reduce what you owe. You may get a refund if you overpaid. Don't throw them away!"
   },
   {
-    title: "Freelancers Paid from Abroad",
-    explanation: "What it means: Money earned from foreign clients is still subject to Nigerian tax.",
-    detail: "As a Nigerian resident, income from international work is taxable in Nigeria. However, you may claim foreign tax credit if you paid tax abroad."
+    title: "Freelancers Paid from Abroad – No WHT, But…",
+    explanation: "What it means: Foreign income is still taxable in Nigeria.",
+    detail: "As a Nigerian resident, income from international clients is taxable in Nigeria. You may claim foreign tax credit if you paid tax in another country."
   },
   {
-    title: "Pension, NHIS & NHF Reliefs",
-    explanation: "What it means: Contributions to certain funds reduce your taxable income.",
-    detail: "Contributions to registered pension schemes, health insurance (NHIS), and housing fund (NHF) are deductible from your gross income before calculating tax."
+    title: "Pension / NHIS / NHF – Free Money Twice",
+    explanation: "What it means: Contributions to these schemes reduce your tax and grow your savings.",
+    detail: "Contributions to registered pension, health insurance (NHIS), and housing fund (NHF) are deductible from your gross income before tax calculation."
   },
   {
-    title: "Presumptive Tax",
-    explanation: "What it means: Small businesses can pay 2% of turnover instead of calculating profit.",
-    detail: "This simplified system is great for cash businesses. You don't need complex bookkeeping. Ask your tax office if you qualify."
+    title: "Presumptive Tax – 2% Silent Life-Saver",
+    explanation: "What it means: Small businesses can pay just 2% of turnover instead of filing complex returns.",
+    detail: "Perfect for cash-based businesses. No need for detailed profit/loss records. Ask FIRS or SIRS if your business qualifies for this simplified system."
   },
   {
-    title: "Change of Address Penalties",
+    title: "Change of Address / Email – ₦50,000 Fine",
     explanation: "What it means: You must update your address with the tax authority.",
-    detail: "If you move, inform FIRS or your SIRS about your new address. Failure to do so can result in penalties."
+    detail: "If you move or change email, inform FIRS or your SIRS. Failure to notify can result in penalties up to ₦50,000. Keep your record current."
   },
   {
-    title: "Mortgage Interest Relief",
-    explanation: "What it means: Interest on a home loan may be deductible.",
-    detail: "In some cases, mortgage interest paid on a primary residential property may qualify for tax relief. Check eligibility with your tax office."
+    title: "Interest on Loan for Owner-Occupied House – Deductible",
+    explanation: "What it means: Mortgage interest on your home may reduce your taxable income.",
+    detail: "In some cases, interest paid on a loan for a primary residential property may qualify for tax relief. Verify eligibility with your tax office."
   },
   {
-    title: "Private Vehicle Capital Gains Exemption",
-    explanation: "What it means: Selling your personal car may not trigger capital gains tax.",
-    detail: "Capital gains from the sale of a private vehicle used for personal purposes are typically exempt from tax."
+    title: "Motor Vehicle Used Only for Private = No Capital Gains",
+    explanation: "What it means: Selling your personal car is typically not a taxable event.",
+    detail: "Capital gains from selling a private vehicle used for personal purposes are generally exempt from tax. You won't owe tax on the profit."
   },
   {
-    title: "Family Income Separation",
-    explanation: "What it means: Each family member's income is taxed individually.",
-    detail: "A spouse's income is separate and taxed independently. You cannot combine incomes to reduce overall tax, and filing is done individually."
+    title: "Family Income – Don't Mix It With Your Own",
+    explanation: "What it means: Each family member's income is taxed separately.",
+    detail: "Your spouse's income is separate and taxed independently. You file separately, not jointly. Combining incomes won't reduce overall tax."
   },
   {
-    title: "Digital Receipts Validity",
+    title: "Digital Receipt = Legal Receipt",
     explanation: "What it means: Digital receipts are valid proof of payment for tax purposes.",
-    detail: "Email receipts, SMS confirmations, and electronic invoices are acceptable for tax records. You don't always need paper receipts."
+    detail: "Email receipts, SMS confirmations, and electronic invoices are acceptable for tax records. You don't always need physical paper receipts."
   },
   {
-    title: "Losses from Side Hustle Rules",
-    explanation: "What it means: Losses from a side business can reduce your main income's tax.",
-    detail: "If your side hustle has a loss, you may be able to offset it against income from your main job, reducing your overall tax liability."
+    title: "Loss From Side Hustle Cannot Reduce Salary",
+    explanation: "What it means: A loss from a side business may have limits on offsetting main income.",
+    detail: "While some offsetting may apply, losses from a side business are not automatically deductible against salary income. Consult a professional about your situation."
   }
 ];
 

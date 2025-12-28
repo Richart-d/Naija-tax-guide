@@ -87,12 +87,12 @@ export default function Checklist() {
         </div>
 
         <Card className="glass-card mb-6 p-6">
-          <label className="mb-2 block text-sm font-medium text-foreground">Select your category:</label>
+          <label className="mb-3 block text-sm font-medium text-foreground">Select your category:</label>
           <Select value={userType} onValueChange={setUserType}>
-            <SelectTrigger>
+            <SelectTrigger className="h-11 bg-white border-2 border-primary/20 rounded-lg shadow-sm hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border-2 border-primary/20 shadow-lg">
               {UserTypes.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
             </SelectContent>
           </Select>

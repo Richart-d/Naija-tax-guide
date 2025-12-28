@@ -1,0 +1,102 @@
+Task 1: Checklist Page – UI Tweak (Minor Adjustment)
+
+The checklist page is functionally correct, but the income-type dropdown UI needs improvement.
+
+Fix the following:
+
+The dropdown is too transparent
+
+It visually overlaps background text
+
+It lacks clear visual separation
+
+Implement:
+
+Solid background color (white or light neutral)
+
+Proper z-index so it floats above background content
+
+Border + subtle shadow
+
+Adequate padding and margin
+
+Ensure it is fully readable and accessible on all screen sizes
+
+⚠️ Do not change dropdown logic or options — UI styling only.
+
+Task 2: Learn Page – Content Update (Not Yet Implemented)
+
+The Learn page needs new educational sections and content.
+
+A. Add a new Learn option:
+
+Title: Presumptive Tax
+Provide a simple explanation suitable for non-technical users.
+
+B. Add a separate Learn section titled:
+“Did You Know?”
+
+Inside this section, display the following as expandable cards or accordions (clean, readable, not overwhelming):
+
+Each item should include:
+
+Short title
+
+What it means
+
+Why it matters / key action
+
+Topics to include (use the exact wording below):
+
+Rent Relief – Automatic Money You Never Knew About
+
+Cash Payment Above ₦50,000 = Free Money to Government
+
+Crypto / Dollar Gift or Sales – Tax Man Wants a Cut
+
+Shares “Small Money” Escape Hole
+
+Minimum-Wage Workers Still Must File a Return
+
+PAYE 10% Bonus – Use It or Lose It
+
+Freelancers Paid from Abroad – No WHT, But…
+
+Pension / NHIS / NHF – Free Money Twice
+
+Presumptive Tax – 2% Silent Life-Saver
+
+Change of Address / Email – ₦50,000 Fine
+
+Interest on Loan for Owner-Occupied House – Deductible
+
+Motor Vehicle Used Only for Private = No Capital Gains
+
+Family Income – Don’t Mix It With Your Own
+
+Digital Receipt = Legal Receipt
+
+Loss From Side Hustle Cannot Reduce Salary
+
+⚠️ Do NOT change tax meanings.
+⚠️ Keep explanations concise, beginner-friendly, and Nigerian-context aware.
+
+Constraints
+
+Modify existing components where possible
+
+Keep UI clean, modern, and readable
+
+No backend or database changes unless strictly necessary
+
+Avoid heavy animations or libraries
+
+Output Expectation
+
+Updated UI styling for dropdown (Checklist page)
+
+Learn page showing:
+
+“Presumptive Tax” option
+
+“Did You Know?” section with expandable items
