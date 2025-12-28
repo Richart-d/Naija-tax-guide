@@ -1,0 +1,139 @@
+Improve the Checklist and Learn sections to cover missing user profiles and expand educational content — without adding calculations, APIs, or backend logic.
+
+Part A: Checklist Fixes
+1. Add Missing Checklist Profiles
+
+Extend the checklist selector to include:
+
+Mixed Income (salary + freelance/business)
+
+Company (LTD) Owner
+
+NGO / Charity / Association
+
+Each checklist should be:
+
+Static and educational
+
+Copyable
+
+Plain English
+
+No tax calculations
+
+2. Checklist Content Guidelines
+
+Mixed Income Checklist
+Include reminders about:
+
+PAYE vs self-declared income
+
+WHT credits
+
+Multiple income sources
+
+Avoiding double taxation
+
+Company (LTD) Owner Checklist
+Focus on:
+
+Separation of company and personal tax
+
+Director salaries
+
+VAT/WHT awareness
+
+Knowing when professional help is needed
+(Add a clear note: educational scope only)
+
+NGO / Charity Checklist
+Include:
+
+Separating donations from business income
+
+TIN importance
+
+VAT threshold awareness
+
+WHT credits
+
+When filing becomes mandatory
+
+Part B: Learn Page Enhancements
+3. Add New Learn Topic
+
+Add a new Learn item:
+
+Presumptive Tax
+
+Explain:
+
+Who it applies to
+
+2% of turnover option
+
+When it helps
+
+Why it simplifies compliance
+
+4. Add a New Learn Section: “Did You Know?”
+
+Create a separate Learn option titled:
+
+Did You Know?
+
+Inside it, present short expandable cards covering:
+
+Rent relief
+
+Cash payments above ₦50,000
+
+Crypto income
+
+Shares capital gains exemption
+
+Minimum wage filing requirement
+
+PAYE/WHT credits
+
+Freelancers paid from abroad
+
+Pension/NHIS/NHF reliefs
+
+Presumptive tax
+
+Change of address penalties
+
+Mortgage interest relief
+
+Private vehicle CGT exemption
+
+Family income separation
+
+Digital receipts validity
+
+Losses from side hustle rules
+
+Each item should:
+
+Use simple language
+
+Explain “what it means” and “why it matters”
+
+Avoid legal citations on the UI
+
+Constraints
+
+No backend
+
+No database
+
+No APIs
+
+Client-side only
+
+Modify existing files only
+
+Keep UI lightweight, mobile-first, and fast
+
+Implement changes cleanly without breaking existing flows.
