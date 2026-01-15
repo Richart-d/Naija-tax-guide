@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   id: string;
@@ -99,13 +101,32 @@ export function TaxBot() {
                   {messages.map((msg) => (
                     <div
                       key={msg.id}
-                      className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
+                      className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm break-words ${
                         msg.sender === "user"
                           ? "self-end bg-primary text-primary-foreground"
                           : "self-start bg-secondary text-secondary-foreground"
                       }`}
                     >
-                      {msg.text}
+                      <ReactMarkdown 
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({children}) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+                          ul: ({children}) => <ul className="list-disc pl-4 mb-2 last:mb-0 space-y-1">{children}</ul>,
+                          ol: ({children}) => <ol className="list-decimal pl-4 mb-2 last:mb-0 space-y-1">{children}</ol>,
+                          li: ({children}) => <li className="mb-0.5">{children}</li>,
+                          h1: ({children}) => <h3 className="text-lg font-bold mb-2 mt-4 first:mt-0">{children}</h3>,
+                          h2: ({children}) => <h4 className="text-base font-bold mb-2 mt-3 first:mt-0">{children}</h4>,
+                          h3: ({children}) => <h5 className="text-sm font-bold mb-1 mt-2 first:mt-0">{children}</h5>,
+                          code: ({children}) => <code className="bg-black/10 rounded px-1 py-0.5 font-mono text-xs">{children}</code>,
+                          pre: ({children}) => <pre className="bg-black/10 rounded p-2 mb-2 overflow-x-auto text-xs">{children}</pre>,
+                          strong: ({children}) => <span className="font-bold">{children}</span>,
+                          table: ({children}) => <div className="overflow-x-auto mb-2"><table className="w-full border-collapse text-xs">{children}</table></div>,
+                          th: ({children}) => <th className="border border-border/50 px-2 py-1 bg-black/5 text-left font-semibold">{children}</th>,
+                          td: ({children}) => <td className="border border-border/50 px-2 py-1">{children}</td>,
+                        }}
+                      >
+                        {msg.text}
+                      </ReactMarkdown>
                     </div>
                   ))}
                   {isLoading && (
