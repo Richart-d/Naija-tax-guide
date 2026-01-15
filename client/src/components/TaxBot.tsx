@@ -30,16 +30,40 @@ export function TaxBot() {
   const [messages, setMessages] = useState<Message[]>([
     { id: "welcome", text: "Hello! I'm your simple tax assistant. Pick a question below.", sender: "bot" }
   ]);
+  const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSend = (text: string) => {
+  const handleSend = async (text: string) => {
     const userMsg: Message = { id: Date.now().toString(), text, sender: "user" };
     setMessages(prev => [...prev, userMsg]);
+    setIsLoading(true);
 
-    setTimeout(() => {
-      const responseText = RESPONSES[text] || "I'm just a simple bot. Please check the Learning Hub for more details!";
-      const botMsg: Message = { id: (Date.now() + 1).toString(), text: responseText, sender: "bot" };
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
+
+      if (!res.ok) throw new Error("Failed to send message");
+
+      const data = await res.json();
+      const botMsg: Message = { 
+        id: (Date.now() + 1).toString(), 
+        text: data.message, 
+        sender: "bot" 
+      };
       setMessages(prev => [...prev, botMsg]);
-    }, 600);
+    } catch (error) {
+      const errorMsg: Message = { 
+        id: (Date.now() + 1).toString(), 
+        text: "Sorry, I'm having trouble connecting to the tax network right now. Please try again later.", 
+        sender: "bot" 
+      };
+      setMessages(prev => [...prev, errorMsg]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -84,21 +108,49 @@ export function TaxBot() {
                       {msg.text}
                     </div>
                   ))}
+                  {isLoading && (
+                     <div className="self-start bg-secondary text-secondary-foreground max-w-[85%] rounded-2xl px-4 py-2 text-sm italic opacity-70">
+                       TaxBot is typing...
+                     </div>
+                  )}
                 </div>
               </ScrollArea>
 
               <div className="border-t bg-background p-3">
-                <div className="flex flex-wrap gap-2">
+                <div className="mb-3 flex gap-2 overflow-x-auto pb-2">
                   {FAQ_OPTIONS.map((opt) => (
                     <button
                       key={opt}
                       onClick={() => handleSend(opt)}
-                      className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+                      disabled={isLoading}
+                      className="whitespace-nowrap rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors disabled:opacity-50"
                     >
                       {opt}
                     </button>
                   ))}
                 </div>
+                
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (inputValue.trim() && !isLoading) {
+                      handleSend(inputValue);
+                      setInputValue("");
+                    }
+                  }}
+                  className="flex gap-2"
+                >
+                  <input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Ask about Nigerian taxes..."
+                    disabled={isLoading}
+                    className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                  <Button type="submit" size="icon" disabled={isLoading || !inputValue.trim()}>
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </form>
               </div>
             </Card>
           </motion.div>

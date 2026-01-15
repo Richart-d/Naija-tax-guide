@@ -1,6 +1,28 @@
+# Dependencies
 node_modules
+
+# Build output
 dist
+
+# OS files
 .DS_Store
+
+# Server public folder
 server/public
+
+# Config artifacts
 vite.config.ts.*
 *.tar.gz
+
+# Environment variables (IMPORTANT - contains secrets!)
+.env
+.env.local
+.env.production
+
+# Temporary files
+pid.txt
+
+# Test files (optional - remove if you want to track these)
+test-api.cjs
+test-ratelimit.ts
+
