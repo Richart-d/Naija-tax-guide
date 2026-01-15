@@ -6,7 +6,14 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 
 const app = express();
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+    },
+  },
+}));
 const httpServer = createServer(app);
 
 declare module "http" {
