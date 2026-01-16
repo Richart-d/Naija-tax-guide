@@ -4,11 +4,13 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
+
 import Home from "@/pages/Home";
 import Classifier from "@/pages/Classifier";
 import Assessment from "@/pages/Assessment";
 import Learn from "@/pages/Learn";
 import Checklist from "@/pages/Checklist";
+import Calculator from "@/pages/Calculator";
 import NotFound from "@/pages/not-found";
 import { Navigation } from "@/components/Navigation";
 import { TaxBot } from "@/components/TaxBot";
@@ -21,6 +23,7 @@ function Router() {
       <Route path="/assessment" component={Assessment} />
       <Route path="/learn" component={Learn} />
       <Route path="/checklist" component={Checklist} />
+      <Route path="/calculator" component={Calculator} />
       <Route component={NotFound} />
     </Switch>
   );

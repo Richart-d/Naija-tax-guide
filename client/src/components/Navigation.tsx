@@ -12,10 +12,12 @@ export function Navigation() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
+
   const links = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/classifier", label: "Check Status", icon: Calculator },
-    { href: "/assessment", label: "Readiness", icon: Activity },
+    { href: "/calculator", label: "Calculator", icon: Calculator },
+    { href: "/classifier", label: "Check Status", icon: Activity },
+    { href: "/assessment", label: "Readiness", icon: CheckSquare },
     { href: "/checklist", label: "Checklist", icon: CheckSquare },
     { href: "/learn", label: "Learn", icon: BookOpen },
   ];

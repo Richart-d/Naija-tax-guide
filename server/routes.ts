@@ -14,6 +14,15 @@ const chatLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+
+// Import for Python child process
+import { spawn } from "child_process";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -21,6 +30,75 @@ export async function registerRoutes(
   // Minimal backend route
   app.get(api.health.path, async (_req, res) => {
     res.json({ status: "ok" });
+  });
+
+  // NEW: Tax Calculator Endpoint (Python Integration)
+  app.post("/api/calculate-paye", async (req, res) => {
+    try {
+      const inputData = req.body;
+      
+      // Path to Python script
+      // Assuming server/python/calculate_paye.py exists
+      // __dirname is 'server' (or 'dist/server'), so we construct path relative to it
+      const scriptPath = path.join(__dirname, "python", "calculate_paye.py");
+      
+      console.log(`Executing Python script: ${scriptPath}`);
+
+      const pythonProcess = spawn("python3", [scriptPath]);
+      
+      let resultData = "";
+      let errorData = "";
+
+      // Send input data to Python via stdin
+      pythonProcess.stdin.write(JSON.stringify(inputData));
+      pythonProcess.stdin.end();
+
+      // Capture stdout
+      pythonProcess.stdout.on("data", (data) => {
+        resultData += data.toString();
+      });
+
+      // Capture stderr
+      pythonProcess.stderr.on("data", (data) => {
+        errorData += data.toString();
+      });
+
+      // Handle process close
+      pythonProcess.on("close", (code) => {
+        if (code !== 0) {
+          console.error(`Python script exited with code ${code}`);
+          console.error(`Python Error: ${errorData}`);
+          
+          // Fallback message if script fails
+          return res.status(500).json({ 
+            success: false, 
+            message: "Tax calculation service failed",
+            details: errorData || "Unknown error in Python script"
+          });
+        }
+
+        try {
+            // Check if resultData is empty
+            if (!resultData) {
+                 throw new Error("No data returned from Python script");
+            }
+
+            const parsedResult = JSON.parse(resultData);
+            res.json(parsedResult);
+        } catch (e) {
+            console.error("Failed to parse Python output:", resultData);
+             res.status(500).json({ 
+                success: false, 
+                message: "Invalid response from calculation engine",
+                raw: resultData
+            });
+        }
+      });
+
+    } catch (error) {
+      console.error("Endpoint error:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
   });
 
   app.post("/api/chat", chatLimiter, async (req, res) => {
