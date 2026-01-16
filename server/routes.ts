@@ -18,10 +18,6 @@ const chatLimiter = rateLimit({
 // Import for Python child process
 import { spawn } from "child_process";
 import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export async function registerRoutes(
   httpServer: Server,
@@ -37,10 +33,8 @@ export async function registerRoutes(
     try {
       const inputData = req.body;
       
-      // Path to Python script
-      // Assuming server/python/calculate_paye.py exists
-      // __dirname is 'server' (or 'dist/server'), so we construct path relative to it
-      const scriptPath = path.join(__dirname, "python", "calculate_paye.py");
+      // Path to Python script (Resolved relative to project root)
+      const scriptPath = path.resolve(process.cwd(), "server", "python", "calculate_paye.py");
       
       console.log(`Executing Python script: ${scriptPath}`);
 
