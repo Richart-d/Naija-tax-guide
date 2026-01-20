@@ -123,7 +123,7 @@ export async function registerRoutes(
             "X-Title": "Naija Tax Bot", // Optional: strictly for OpenRouter analytics
           },
           body: JSON.stringify({
-            model: "meta-llama/llama-3.1-8b-instruct",
+            model: "anthropic/claude-sonnet-4.5",
             messages: [
               {
                 role: "system",

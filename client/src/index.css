@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,7 +7,7 @@
 :root {
   /* Nigeria-inspired Palette: Trustworthy Greens, Clean Whites/Grays */
   /* H S L format */
-  
+
   --background: 0 0% 100%;
   --foreground: 150 10% 15%; /* Dark greenish-gray text */
 
@@ -35,10 +35,15 @@
   --input: 214 32% 91%;
   --ring: 154 55% 35%;
 
+  /* Card: Solid white background for overlays */
+  --card: 0 0% 100%;
+  --card-foreground: 150 10% 15%;
+  --card-border: 214 32% 91%;
+
   --radius: 0.75rem;
 
-  --font-sans: 'DM Sans', sans-serif;
-  --font-display: 'Outfit', sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-display: "Outfit", sans-serif;
 }
 
 @layer base {
@@ -47,7 +52,12 @@
     font-family: var(--font-sans);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     @apply font-bold tracking-tight text-foreground;
   }
@@ -57,7 +67,7 @@
   .glass-card {
     @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl shadow-black/5;
   }
-  
+
   .card-hover {
     @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/20;
   }

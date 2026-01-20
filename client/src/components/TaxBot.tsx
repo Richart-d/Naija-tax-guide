@@ -96,7 +96,7 @@ export function TaxBot() {
                 </Button>
               </div>
 
-              <ScrollArea className="flex-1 bg-muted/30 p-4">
+              <ScrollArea className="flex-1 bg-white p-4">
                 <div className="flex flex-col gap-4">
                   {messages.map((msg) => (
                     <div
