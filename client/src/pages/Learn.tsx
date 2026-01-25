@@ -20,16 +20,7 @@ const MODULES = [
     icon: Briefcase,
     summary: "Tax charged on the income of individuals, families, and trustees.",
     content: `
-      ### What is PIT?
-      Personal Income Tax (PIT) is a tax imposed on the income of individuals, communities, families, executors, and trustees.
-      
-      ### Who collects it?
-      - If you live in a state (e.g., Lagos, Kano), the State Internal Revenue Service (SIRS) collects it.
-      - If you live in Abuja (FCT), are a police officer, or work in the Ministry of Foreign Affairs, the FIRS collects it.
-      
-      ### How much is it?
-      It uses a graduated scale ranging from 7% to 24% after a Consolidated Relief Allowance (CRA) is deducted.
-      
+      PIT is the tax individuals pay on money they earn from salary, business, freelance work, investments, and other income in Nigeria. You can reduce how much tax you pay using reliefs like pension, NHF, NHIS, life insurance, housing loan interest, and rent (up to ₦500,000). If you earn ₦800,000 or less in a year, you pay no tax, but you must still file a return. Higher earners pay more based on set rates. Residents pay to their State tax office and must file yearly returns.
      `
   },
   {
@@ -39,14 +30,7 @@ const MODULES = [
     icon: DollarSign,
     summary: "Consumption tax of 7.5% placed on goods and services.",
     content: `
-      ### What is VAT?
-      VAT is a consumption tax paid when goods are purchased and services rendered. The current rate in Nigeria is 7.5%.
-      
-      ### Who registers?
-      Any individual or business trading in VATable goods/services with an annual turnover of ₦25 Million or more.
-      
-      ### Exemptions
-      Basic food items, medical products, books, and educational materials are generally exempt from VAT.
+      VAT is 7.5% added to most goods and services sold in Nigeria. Businesses collect it from customers and send it to the government every month. Some items like basic food, education, and exports do not have VAT. Small businesses earning ₦50 million or less per year do not need to charge VAT unless they choose to.
     `
   },
   {
@@ -56,14 +40,7 @@ const MODULES = [
     icon: Building2,
     summary: "An advance payment of income tax deducted at source.",
     content: `
-      ### Understanding WHT
-      Withholding Tax is not a separate tax type. It is an advance payment of income tax.
-      
-      ### How it works
-      When a company pays you for a service, they may deduct 5% or 10% and pay it to the government on your behalf.
-      
-      ### Credit Notes
-      The company must give you a WHT Credit Note. You can use this note to reduce your total tax liability at the end of the year. Do not throw it away!
+      WHT is tax taken out of your payment before you receive it, for things like rent, contracts, or professional services. It is not extra tax, it is counted as part of the tax you already paid and can reduce your final tax bill. The person who pays you must send this tax to the government and give you proof so you can claim it later.
     `
   },
   {
@@ -73,23 +50,7 @@ const MODULES = [
     icon: Briefcase,
     summary: "A simplified tax option for small businesses based on turnover.",
     content: `
-      ### What is Presumptive Tax?
-      Presumptive Tax is a simplified tax system for individuals and small businesses. Instead of calculating actual profit, you pay a fixed percentage of your turnover.
-      
-      ### The 2% Option
-      Many small businesses can opt to pay 2% of their annual turnover instead of calculating profit or loss. This makes tax compliance simpler.
-      
-      ### Who can use it?
-      Generally, businesses with lower turnover may qualify for presumptive tax. Check with your tax office for eligibility.
-      
-      ### Why it helps
-      - No need to keep detailed profit and loss records
-      - Quick tax calculation
-      - Easier filing and compliance
-      - Good for cash-based businesses
-      
-      ### Important Note
-      You must register and inform FIRS/SIRS that you are using presumptive tax. It is not automatic.
+      Presumptive tax is a simple way to pay tax when a business does not keep proper records. Instead of calculating profit, the government charges a small fixed amount or percentage based on estimated turnover. It is meant for small and informal businesses and does not apply to registered companies.
     `
   }
 ];

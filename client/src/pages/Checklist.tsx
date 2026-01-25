@@ -15,17 +15,17 @@ const CHECKLIST_ITEMS = [
   { id: "paye-card", text: "Get Tax Clearance Certificate (TCC) from employer annually", for: ["Salary Earner"] },
   { id: "tin-salary", text: "Ensure your TIN is registered with your employer", for: ["Salary Earner"] },
 
-  // Freelancer / Self-Employed
-  { id: "tin", text: "Register for Taxpayer Identification Number (TIN)", for: ["Freelancer", "Self-Employed"] },
-  { id: "records", text: "Set up a record-keeping system (Excel/Software)", for: ["Freelancer", "Self-Employed"] },
-  { id: "vat-reg", text: "Register for VAT with FIRS (if turnover > ₦25 million)", for: ["Freelancer", "Self-Employed"] },
-  { id: "invoice-system", text: "Create invoices for all services/products sold", for: ["Freelancer", "Self-Employed"] },
-  { id: "bank-account", text: "Separate personal and business bank accounts", for: ["Freelancer", "Self-Employed"] },
+  // Freelancers & Self-Employed
+  { id: "tin", text: "Register for Taxpayer Identification Number (TIN)", for: ["Freelancers & Self-Employed"] },
+  { id: "records", text: "Set up a record-keeping system (Excel/Software)", for: ["Freelancers & Self-Employed"] },
+  { id: "vat-reg", text: "Register for VAT with NRS/SIRS (if turnover > ₦25 million)", for: ["Freelancers & Self-Employed"] },
+  { id: "invoice-system", text: "Create invoices for all services/products sold", for: ["Freelancers & Self-Employed"] },
+  { id: "bank-account", text: "Separate personal and business bank accounts", for: ["Freelancers & Self-Employed"] },
 
   // Business Owner
   { id: "tin-biz", text: "Register for Taxpayer Identification Number (TIN)", for: ["Business Owner"] },
   { id: "cac", text: "Register Business Name with CAC (Corporate Affairs Commission)", for: ["Business Owner"] },
-  { id: "vat-biz", text: "Register for VAT with FIRS (if turnover > ₦25 million)", for: ["Business Owner"] },
+  { id: "vat-biz", text: "Register for VAT with NRS/SIRS (if turnover > ₦25 million)", for: ["Business Owner"] },
   { id: "bank-biz", text: "Open Corporate Bank Account separate from personal", for: ["Business Owner"] },
   { id: "records-biz", text: "Set up a record-keeping system (Excel/Software)", for: ["Business Owner"] },
   { id: "monthly-tracking", text: "Track income and expenses monthly", for: ["Business Owner"] },
@@ -59,7 +59,7 @@ const CHECKLIST_ITEMS = [
 ];
 
 export default function Checklist() {
-  const [userType, setUserType] = useState<string>("Freelancer");
+  const [userType, setUserType] = useState<string>("Freelancers & Self-Employed");
   const [checkedItems, setCheckedItems] = useState<string[]>(() => {
     const saved = localStorage.getItem("tax_checklist");
     return saved ? JSON.parse(saved) : [];
