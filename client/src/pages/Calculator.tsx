@@ -119,7 +119,7 @@ export default function Calculator() {
                 PIT Calculator (2025 Act)
             </h1>
             <p className="text-gray-500 dark:text-gray-400">
-                Calculate your Personal Income Tax under the new 2025 Finance Act regulations.
+                Calculate your Personal Income Tax under the new Nigeria Tax Act, 2025 (NTA) regulations.
             </p>
         </div>
 
