@@ -32,10 +32,6 @@ export default function Home() {
             animate="show"
             className="mx-auto max-w-3xl text-center"
           >
-            <motion.div variants={item} className="mb-6 inline-flex items-center rounded-full bg-secondary px-3 py-1 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
-              <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
-              Updated for Finance Act 2024
-            </motion.div>
             
             <motion.h1 variants={item} className="font-display text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
               Nigerian Taxes, <br />
